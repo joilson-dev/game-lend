@@ -3,7 +3,8 @@ import dotenv from "dotenv";
 import cors from "cors";
 import "express-async-errors";
 
-import router from "./src/routers/index.js";
+import router from "./routers/index.js";
+import errorHandler from "./middlewares/errorHandler.middleware.js";
 
 dotenv.config();
 
@@ -12,6 +13,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use(router);
+app.use(errorHandler);
 
 
 const PORT = process.env.PORT || 5000;

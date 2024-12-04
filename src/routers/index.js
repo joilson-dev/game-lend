@@ -1,5 +1,5 @@
 import express from 'express';
-// import gamesRoutes from './games.routes.js';
+import gamesRoutes from './games.routes.js';
 // import customersRoutes from './customers.routes.js';
 // import rentalsRoutes from './rentals.routes.js';
 
@@ -10,7 +10,7 @@ router.get('/', (req, res) => {
 });
 
 
-// router.use('/games', gamesRoutes);
+router.use('/games', gamesRoutes);
 // router.use('/customers', customersRoutes);
 // router.use('/rentals', rentalsRoutes);
 
