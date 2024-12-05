@@ -1,4 +1,4 @@
-import { createCustomer as createCustomerInRepo, findCustomerByCpf } from '../repositories/customers.repository.js';
+import { createCustomer as createCustomerInRepo, findCustomerByCpf, getAllCustomers as getAllCustomersFromRepo } from '../repositories/customers.repository.js';
 
 export const createCustomer = async (req, res) => {
     const { name, phone, cpf } = req.body;
@@ -18,4 +18,9 @@ export const createCustomer = async (req, res) => {
 
     await createCustomerInRepo({ name, phone, cpf });
     res.status(201).send();
+};
+
+export const getAllCustomers = async (req, res) => {
+    const customers = await getAllCustomersFromRepo();
+    res.status(200).json(customers);
 };

@@ -12,3 +12,9 @@ export const createCustomer = async (customer) => {
         [name, phone, cpf]
     );
 };
+
+
+export const getAllCustomers = async () => {
+    const result = await connection.query('SELECT * FROM customers');
+    return result.rows;
+};
