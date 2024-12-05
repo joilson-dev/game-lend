@@ -1,4 +1,4 @@
-import { createRental as createRentalInRepo, findCustomerById, findGameById, getActiveRentalsByGameId, getAllRentalsFromRepo, getRentalById, updateRentalReturn } from '../repositories/rentals.repository.js';
+import { createRental as createRentalInRepo, findCustomerById, findGameById, getActiveRentalsByGameId, getAllRentalsFromRepo, getRentalById, updateRentalReturn, deleteRentalById } from '../repositories/rentals.repository.js';
 import dayjs from 'dayjs';
 
 export const createRental = async (req, res) => {
@@ -81,20 +81,36 @@ export const returnRental = async (req, res) => {
     }
 
     const returnDate = dayjs().format('YYYY-MM-DD');
-    console.log(`Return date (formatted): ${returnDate}`);
 
     const rentEndDate = dayjs(rental.rentDate, 'YYYY/MM/DD').add(rental.daysRented, 'day');
-    console.log(`Rent end date: ${rentEndDate}`);
 
     const returnDateObj = dayjs(returnDate, 'YYYY-MM-DD');
-    console.log(`Return date object: ${returnDateObj}`);
 
     const delayDays = returnDateObj.diff(rentEndDate, 'day');
-    console.log(`Delay days: ${delayDays}`);
 
     const delayFee = delayDays > 0 ? delayDays * rental.pricePerDay : 0;
-    console.log(`Delay fee: ${delayFee}`);
 
     await updateRentalReturn(id, returnDateObj.format('DD-MM-YYYY'), delayFee);
+    res.status(200).send();
+};
+
+
+export const deleteRental = async (req, res) => {
+    const { id } = req.params;
+
+    const rental = await getRentalById(id);
+    if (!rental) {
+        const error = new Error('Aluguel não encontrado');
+        error.type = 'notFound';
+        throw error;
+    }
+
+    if (!rental.returnDate) {
+        const error = new Error('Aluguel ainda não foi finalizado');
+        error.type = 'validationError';
+        throw error;
+    }
+
+    await deleteRentalById(id);
     res.status(200).send();
 };

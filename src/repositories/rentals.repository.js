@@ -48,3 +48,7 @@ export const updateRentalReturn = async (id, returnDate, delayFee) => {
         [returnDate, delayFee, id]
     );
 };
+
+export const deleteRentalById = async (id) => {
+    await connection.query('DELETE FROM rentals WHERE id = $1', [id]);
+};
