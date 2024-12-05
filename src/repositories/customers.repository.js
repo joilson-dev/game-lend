@@ -18,3 +18,8 @@ export const getAllCustomers = async () => {
     const result = await connection.query('SELECT * FROM customers');
     return result.rows;
 };
+
+export const getCustomerById = async (id) => {
+    const result = await connection.query('SELECT * FROM customers WHERE id = $1', [id]);
+    return result.rows[0];
+};
