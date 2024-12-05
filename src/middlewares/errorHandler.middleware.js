@@ -12,6 +12,9 @@ export default function errorHandler(err, req, res, next) {
         case 'notFound':
             statusCode = 404;
             break;
+        case 'unprocessableEntity':
+            statusCode = 422;
+            break;
         default:
             statusCode = 500;
     }
