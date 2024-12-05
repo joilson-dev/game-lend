@@ -1,4 +1,4 @@
-import { createRental as createRentalInRepo, findCustomerById, findGameById, getActiveRentalsByGameId } from '../repositories/rentals.repository.js';
+import { createRental as createRentalInRepo, findCustomerById, findGameById, getActiveRentalsByGameId, getAllRentalsFromRepo } from '../repositories/rentals.repository.js';
 import dayjs from 'dayjs';
 
 export const createRental = async (req, res) => {
@@ -37,4 +37,29 @@ export const createRental = async (req, res) => {
 
     await createRentalInRepo({ customerId, gameId, daysRented, rentDate, originalPrice });
     res.status(201).send();
+};
+
+export const getAllRentals = async (req, res) => {
+    const rentals = await getAllRentalsFromRepo();
+
+    const formattedRentals = rentals.map((rental) => ({
+        id: rental.id,
+        customerId: rental.customerId,
+        gameId: rental.gameId,
+        rentDate: rental.rentDate,
+        daysRented: rental.daysRented,
+        returnDate: rental.returnDate,
+        originalPrice: rental.originalPrice,
+        delayFee: rental.delayFee,
+        customer: {
+            id: rental.customerId,
+            name: rental.customerName,
+        },
+        game: {
+            id: rental.gameId,
+            name: rental.gameName,
+        },
+    }));
+
+    res.status(200).json(formattedRentals);
 };

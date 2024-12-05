@@ -23,3 +23,16 @@ export const createRental = async (rental) => {
         [customerId, gameId, rentDate, daysRented, originalPrice]
     );
 };
+
+export const getAllRentalsFromRepo = async () => {
+    const result = await connection.query(`
+    SELECT
+      rentals.*,
+      customers.name AS "customerName",
+      games.name AS "gameName"
+    FROM rentals
+    JOIN customers ON rentals."customerId" = customers.id
+    JOIN games ON rentals."gameId" = games.id
+  `);
+    return result.rows;
+};
