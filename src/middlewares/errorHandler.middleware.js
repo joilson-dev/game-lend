@@ -15,6 +15,6 @@ export default function errorHandler(err, req, res, next) {
         default:
             statusCode = 500;
     }
-
+    // console.log(err)
     res.status(statusCode).send({ ERROR: err.message });
 };
