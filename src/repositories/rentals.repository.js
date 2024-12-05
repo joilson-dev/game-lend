@@ -1,4 +1,3 @@
-// src/repositories/rentals.repository.js
 import connection from '../database/database.js';
 
 export const findCustomerById = async (id) => {
@@ -35,4 +34,17 @@ export const getAllRentalsFromRepo = async () => {
     JOIN games ON rentals."gameId" = games.id
   `);
     return result.rows;
+};
+
+
+export const getRentalById = async (id) => {
+    const result = await connection.query('SELECT rentals.*, games."pricePerDay" FROM rentals JOIN games ON rentals."gameId" = games.id WHERE rentals.id = $1', [id]);
+    return result.rows[0];
+};
+
+export const updateRentalReturn = async (id, returnDate, delayFee) => {
+    await connection.query(
+        'UPDATE rentals SET "returnDate" = $1, "delayFee" = $2 WHERE id = $3',
+        [returnDate, delayFee, id]
+    );
 };
