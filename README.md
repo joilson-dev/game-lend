@@ -2,7 +2,8 @@
 
 ## Descrição
 
-Este é um sistema de gestão para uma locadora de jogos de tabuleiro, utilizando Node.js e SQL.
+BoardCamp é um sistema de gestão para uma locadora de jogos de tabuleiro, desenvolvido com Node.js e PostgreSQL. Ele permite o controle eficiente do catálogo de jogos, o gerenciamento de clientes e a administração dos aluguéis.
+
 
 ## Instalação
 
